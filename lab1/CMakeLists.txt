@@ -10,5 +10,5 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIR})
 
 
-add_executable(main.cpp src/LevenshteinDistance.cpp src/DamerauLevenshteinDistance.cpp inc/DamerauLevenshteinDistance.h)
-target_link_libraries( main.out ${Boost_LIBRARIES} )
+add_executable(main.out main.cpp src/LevenshteinDistance.cpp src/DamerauLevenshteinDistance.cpp)
+target_link_libraries(main.out ${Boost_LIBRARIES})
