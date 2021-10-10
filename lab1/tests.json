@@ -1,0 +1,59 @@
+[
+  {
+    "left": "",
+    "right": "",
+    "l": 0,
+    "dl": 0,
+    "description" : "Пустые строки"
+  },
+  {
+    "left": "same",
+    "right": "same",
+    "l": 0,
+    "dl": 0,
+    "description" : "Одинаковые строки"
+  },
+  {
+    "left": "hello",
+    "right": "gol",
+    "l": 4,
+    "dl": 4,
+    "description" : "Строки разной длины"
+  },
+  {
+    "left": "qwer",
+    "right": "rewq",
+    "l": 4,
+    "dl": 3,
+    "description" : "Зеркальные слова"
+  },
+  {
+    "left": "music",
+    "right": "muisc",
+    "l": 2,
+    "dl": 1,
+    "description" : "Перестановка двух букв"
+  },
+  {
+    "left": "memory",
+    "right": "memxory",
+    "l": 1,
+    "dl": 1,
+    "description" : "Вставка буквы"
+  },
+  {
+    "left": "memxory",
+    "right": "memory",
+    "l": 1,
+    "dl": 1,
+    "description" : "Удаление буквы"
+  }
+,
+  {
+    "left": "mexory",
+    "right": "memory",
+    "l": 1,
+    "dl": 1,
+    "description" : "Замена буквы"
+  }
+]
