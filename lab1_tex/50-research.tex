@@ -1,0 +1,204 @@
+\chapter{Экспериментальный раздел}
+\label{cha:research}
+
+\section{Технические характеристики}
+Тестирование выполнялось на устройстве со следующими техническими характеристиками:
+\begin{itemize}
+	\item Операционная система Ubuntu 21.04;
+	\item Память 16 GiB (4,5 GiB выделено для нужд графического ядра)
+	\item Процессор AMD® Ryzen 5 5500u with radeon graphics × 12 
+\end{itemize}
+
+\section{Время выполнения алгоритмов}
+
+Для замеров времени использовалась стандартная функция языка clock \cite{clock}.  Данная функция возвращает суммарное процессорное время, использованное программой. В случае ошибки, функция возвращает значение -1. На листинге \ref{listing:mesuare} показан способ применения данной функции при замерах.
+
+\begin{lstlisting}[caption={Замер времени функции}, label=listing:mesuare]
+auto start = clock();
+for (int j = 0; j < counts; ++j) {
+    rec_l(left, right);
+}
+res.rl = double(clock() - start) / counts;
+\end{lstlisting}
+
+
+Результаты тестирования приведены в таблице \ref{tbl:time} .Прочерк в таблице означает что тестирование для этого набора данных не выполнялось.
+
+\begin{table}[h]
+    \caption{Таблица зависимости времени работы реализаций алгоритмов от длины входных слов}
+    \begin{tabular}{||l|llll||}
+    \hline
+    Длина слов & \begin{tabular}[c]{@{}l@{}}Рекурсивный\\ Левенштейна\end{tabular} & \begin{tabular}[c]{@{}l@{}}Итеративный\\ Левенштейна\end{tabular} & \begin{tabular}[c]{@{}l@{}}Рекурсивный с кэшем\\ Левенштейна\end{tabular} & \begin{tabular}[c]{@{}l@{}}Рекурсивный\\ Дамерау--Левенштейна\end{tabular} \\ \hline \hline
+    1          & 0.5                                                               & 0.3                                                               & 0.5                                                                       & 0.7                                                                        \\ \hline
+    2          & 0.2                                                               & 0.4                                                               & 0.5                                                                       & 1.3                                                                        \\ \hline
+    3          & 0.9                                                               & 0.6                                                               & 0.7                                                                       & 6.7                                                                        \\ \hline
+    4          & 4.6                                                               & 0.8                                                               & 1.1                                                                       & 34.4                                                                       \\ \hline
+    5          & 23.8                                                              & 1                                                                 & 1.5                                                                       & 183.9                                                                      \\ \hline
+    6          & 127.6                                                             & 1.3                                                               & 2.1                                                                       & 961.9                                                                      \\ \hline
+    7          & 689.6                                                             & 1.7                                                               & 3.2                                                                       & 4756.3                                                                     \\ \hline
+    8          & 3488.9                                                            & 2.8                                                               & 6.7                                                                       & 34719.2                                                                    \\ \hline
+    9          & 23001.5                                                           & 2.4                                                               & 4.9                                                                       & 145662                                                                     \\ \hline
+    10         & 111428                                                            & 3                                                                 & 5.9                                                                       & 797734                                                                     \\ \hline
+    20         & --                                                                & 10.3                                                              & 22.5                                                                      & --                                                                         \\ \hline
+    30         & --                                                                & 22.5                                                              & 46.1                                                                      & --                                                                         \\ \hline
+    50         & --                                                                & 59.9                                                              & 132.8                                                                     & --                                                                         \\ \hline
+    100        & --                                                                & 236.4                                                             & 530.1                                                                     & --                                                                         \\ \hline
+    200        & --                                                                & 921                                                               & 2047.2                                                                    & --                                                                         \\ \hline
+    \end{tabular}
+    \label{tbl:time}
+    \end{table}
+
+Представлены зависимости времени работы рекурсивных алгоритмов Левенштейна и Дамерау--Левенштейна на рисунках \ref{fig:plot_rec_l} и \ref{fig:plot_rec_e}
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина слов},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Рекурсивный алгоритм Дамерау-Левенштейна, 
+            Рекурсивный алгоритм Левенштейна
+        };
+        \addplot table [x=x, y=y] {bench_results/dl.csv};
+        \addplot table [x=x, y=y] {bench_results/rl.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций рекурсивных алгоритмов Левенштейна и Дамерау-Левенштейна от времени}
+    \label{fig:plot_rec_l}
+\end{figure} 
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{semilogyaxis} [
+            legend pos = north west, 
+            ymin = 0,
+            grid = major,
+            xlabel={Длина слов},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Рекурсивный алгоритм Дамерау-Левенштейна, 
+            Рекурсивный алгоритм Левенштейна
+        };
+        \addplot table [x=x, y=y] {bench_results/dl.csv};
+        \addplot table [x=x, y=y] {bench_results/rl.csv};
+        \end{semilogyaxis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций рекурсивных алгоритмов Левенштейна и Дамерау-Левенштейна от времени в логарифмической шкале}
+    
+    \label{fig:plot_rec_e}
+\end{figure} 
+
+На рисунках \ref{fig:plot_iter_1} и \ref{fig:plot_iter_2} представлена зависимость времени работы реализаций алгоритмов Левенштейна итеративного и рекурсивного с кэшем. 
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина слов},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Итеративный алгоритм Левенштейна, 
+            Рекурсивный алгоритм Левенштейна с кэшированием
+        };
+        \addplot table [x=x, y=y] {bench_results/il.csv};
+        \addplot table [x=x, y=y] {bench_results/rcl.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов Левенштейна итеративного и рекурсивного с кэшем}
+    
+    \label{fig:plot_iter_1}
+\end{figure} 
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина слов},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Итеративный алгоритм Левенштейна, 
+            Рекурсивный алгоритм Левенштейна с кэшированием
+        };
+        \addplot table [x=x, y=y] {bench_results/il2.csv};
+        \addplot table [x=x, y=y] {bench_results/rcl2.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов Левенштейна итеративного и рекурсивного с кэшем}
+    
+    \label{fig:plot_iter_2}
+\end{figure} 
+
+\section{Использование памяти}
+
+Максимальная глубина стека при вызове рекурсивных функций рассчитывается по формуле \eqref{eq:rec-mem}.
+
+\begin{eqndesc}
+\begin{equation}\label{eq:rec-mem}
+	M_{recursive} = (n \cdot lvar + ret + ret_{int}) \cdot depth
+\end{equation}
+Где:
+\[
+\begin{array}{l}
+	n\text{ -- количество аллоцированных локальных переменных}; \\
+	lvar\text{ -- размер переменной типа int} \\
+	ret \text{ -- адрес возврата;}\\
+	ret_{int} \text{ -- возвращаемое значение;}\\
+	depth\text{ --  максимальная глубина стека вызова, которая равна} |S_1| + |S_2| .\\
+\end{array}
+\]
+\end{eqndesc}
+
+Использование памяти при итеративной реализации алгоритма Левенштейна может быть найдено с помощью формулы \eqref{eq:rec-mem-mem}.
+\begin{eqndesc}
+    \begin{equation}
+        \label{eq:rec-mem-mem}
+        M_{iter} = |S_1| + |S_2| + (|S_2| + 1) \cdot 2 \cdot lvar + n \cdot lvar + ret + ret_{int}
+    \end{equation}
+    Где $(|S_2| + 1) \cdot 2 \cdot lvar$ -- место в памяти под матрицу расстояний.
+\end{eqndesc}
+
+\clearpage 
+\section{Вывод}
+Рекурсивный алгоритм Левенштейна работает дольше итеративной реализации -- время этого алгоритма увеличивается экспонентально с ростом размера строк.
+Рекурсивный алгоритм с кэшированием превосходит простой рекурсивный алгоритм по времени. 
+Расстояние Дамерау -- Левенштейна по результатом замеров работает дольше в отличии от расстояния Левенштейна. Однако, в системах автоматического исправления текста, где транспозиция встречается чаще, расстояние Дамерау -- Левенштейна будет наиболее эффективным алгоритмом. 
+По расходу памяти все реализации проигрывают рекурсивной за счет большого количества выделенной памяти под матрицу расстояний.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rpz"
+%%% End:
