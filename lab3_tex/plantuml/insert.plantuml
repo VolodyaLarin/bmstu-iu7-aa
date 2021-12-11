@@ -1,0 +1,25 @@
+
+@startuml
+!theme plain
+skinparam padding 5
+skinparam ConditionEndStyle hline
+skinparam conditionStyle InsideDiamond
+
+
+:Начало;
+    :n ← размер массива arr]
+    :i ← 1]
+    while (i < n) is (да)
+        : key ← arr[i] ]
+
+        :j ← i - 1]
+        while (j >= 0 &&  arr[j] > key) is (да)
+                : arr[j + 1] ← arr[j] ]
+                : j ← j - 1 ]
+        endwhile (нет)
+        : arr[j + 1] ← key ]
+
+        :i ← i + 1 ]
+    endwhile (нет)
+:Конец;
+@enduml     

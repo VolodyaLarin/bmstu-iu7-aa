@@ -1,0 +1,30 @@
+\chapter{Технологический раздел}
+\label{cha:impl}
+
+
+\section{Средства реализации}
+
+
+Основным средством разработки является язык программирования. Был выбран язык программирования C++. Данный выбор обоснован высокой скоростью работы языка, поддержкой строгой типизации \cite{cpplang}. Для сборки проекта был выбран инструмент CMake \cite{cmake}.  В качестве среды разработки был выбран инструмент JetBrains Clion \cite{clion}.
+
+
+\section{Реализация алгоритмов}
+
+В листинге \ref{lst:bubble} представлена реализация сортировки пузырьком.
+В листинге \ref{lst:insert} представлена реализация сортировки вставками.
+В листинге \ref{lst:select} представлена реализация сортировки выбором.
+
+\lstinputlisting[language=c,caption={Алгоритм сортировки пузырьком},label=lst:bubble]{code/bubble.cpp}
+\lstinputlisting[language=c,caption={Алгоритм сортировки вставками},label=lst:insert]{code/insert.cpp}
+\lstinputlisting[language=c,caption={Алгоритм сортировки выбором},label=lst:select]{code/select.cpp}
+
+\section{Тестовые данные}
+
+Для генерации тестовых данных были использованы функции представленные на листинге \ref{lst:generator}.
+
+\lstinputlisting[language=c,caption={Генераторы тестовых данных},label=lst:generator]{code/generator.cpp}
+
+
+\section{Вывод}
+
+На основе схем из конструкторского раздела были разработаны реализации требуемых алгоритмов.

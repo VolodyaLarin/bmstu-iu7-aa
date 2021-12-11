@@ -1,0 +1,237 @@
+\chapter{Экспериментальный раздел}
+\label{cha:research}
+
+\section{Технические характеристики}
+Тестирование выполнялось на устройстве со следующими техническими характеристиками:
+\begin{itemize}
+	\item Операционная система Ubuntu 21.04;
+	\item Память 16 GiB (4,5 GiB выделено для нужд графического ядра)
+	\item Процессор AMD® Ryzen 5 5500u with radeon graphics × 12 
+\end{itemize}
+
+\section{Время выполнения алгоритмов}
+
+Для замеров времени использовалась стандартная функция языка clock \cite{clock}.  Данная функция возвращает суммарное процессорное время, использованное программой. В случае ошибки, функция возвращает значение -1. На листинге \ref{listing:mesuare} показан способ применения данной функции при замерах.
+
+\begin{lstlisting}[caption={Замер времени функции}, label=listing:mesuare]
+auto start = clock();
+for (int j = 0; j < counts; ++j) {
+    rec_l(left, right);
+}
+res.rl = double(clock() - start) / counts;
+\end{lstlisting}
+
+
+Результаты тестирования приведены в таблице \ref{tbl:time}.
+
+\begin{table}[h]
+    \caption{Таблица зависимости времени работы реализаций алгоритмов от длины входных данных}
+    \begin{tabular}{||l|lll||}
+    \hline
+    Длина массива & \begin{tabular}[c]{@{}l@{}} Пузырьком\end{tabular} & \begin{tabular}[c]{@{}l@{}}Вставками\end{tabular} & \begin{tabular}[c]{@{}l@{}}Выбором\end{tabular} \\ \hline \hline
+    1          & 0.17                                                  & 0.42                                              & 0.39                                            \\ \hline
+    2          & 0.16                                                  & 0.14                                              & 0.17                                            \\ \hline
+    3          & 0.16                                                  & 0.16                                              & 0.19                                            \\ \hline
+    4          & 0.19                                                  & 0.17                                              & 0.2                                             \\ \hline
+    5          & 0.22                                                  & 0.18                                              & 0.24                                            \\ \hline
+    6          & 0.27                                                  & 0.22                                              & 0.26                                            \\ \hline
+    7          & 0.28                                                  & 0.22                                              & 0.3                                             \\ \hline
+    8          & 0.34                                                  & 0.26                                              & 0.34                                            \\ \hline
+    9          & 0.43                                                  & 0.31                                              & 0.38                                            \\ \hline
+    10         & 0.53                                                  & 0.35                                              & 0.43                                            \\ \hline
+    20         & 1.56                                                  & 0.88                                              & 1.2                                             \\ \hline
+    30         & 3.67                                                  & 1.91                                              & 3.98                                            \\ \hline
+    50         & 10.33                                                 & 4.47                                              & 6.6                                             \\ \hline
+    100        & 38.3                                                  & 16.85                                             & 24.64                                           \\ \hline
+    200        & 158.61                                                & 55.62                                             & 90.96                                           \\ \hline
+    500        & 974.95                                                & 294.31                                            & 524.33                                          \\ \hline
+    1000       & 4715.04                                               & 1558.64                                           & 2031.2                                          \\ \hline
+    \end{tabular}
+    \label{tbl:time}
+    \end{table}
+
+Представлены зависимости времени работы  для случайного набора данных представлены  на рисунках \ref{fig:plot_random} и \ref{fig:plot_random_big}, для отсортированного набора данных на рисунках \ref{fig:plot_sorted} и \ref{fig:plot_sorted_big}, для обратно отсортированного набора данных на рисунках \ref{fig:plot_resorted} и \ref{fig:plot_resorted_big} . 
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина массива},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Сортировка пузырьком, 
+            Сортировка вставками, 
+            Сортировка выбором
+        };
+        \addplot table [x=x, y=y] {bench_results/bubble_random.csv};
+        \addplot table [x=x, y=y] {bench_results/insert_random.csv};
+        \addplot table [x=x, y=y] {bench_results/select_random.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов сортировки от длины массивов, содержащих случайный набор данных}
+    \label{fig:plot_random}
+\end{figure} 
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина массива},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Сортировка пузырьком, 
+            Сортировка вставками, 
+            Сортировка выбором
+        };
+        \addplot table [x=x, y=y] {bench_results/bubble_random copy.csv};
+        \addplot table [x=x, y=y] {bench_results/insert_random copy.csv};
+        \addplot table [x=x, y=y] {bench_results/select_random copy.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов сортировки от длины массивов, содержащих случайный набор данных (крупно)}
+    \label{fig:plot_random_big}
+\end{figure} 
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина массива},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Сортировка пузырьком, 
+            Сортировка вставками, 
+            Сортировка выбором
+        };
+        \addplot table [x=x, y=y] {bench_results/bubble_sorted.csv};
+        \addplot table [x=x, y=y] {bench_results/insert_sorted.csv};
+        \addplot table [x=x, y=y] {bench_results/select_sorted.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов сортировки от длины массивов, содержащих отсортированный набор данных}
+    \label{fig:plot_sorted}
+\end{figure} 
+
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина массива},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Сортировка пузырьком, 
+            Сортировка вставками, 
+            Сортировка выбором
+        };
+        \addplot table [x=x, y=y] {bench_results/bubble_sorted copy.csv};
+        \addplot table [x=x, y=y] {bench_results/insert_sorted copy.csv};
+        \addplot table [x=x, y=y] {bench_results/select_sorted copy.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов сортировки от длины массивов, содержащих отсортированный набор данных (крупно)}
+    \label{fig:plot_sorted_big}
+\end{figure} 
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина массива},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Сортировка пузырьком, 
+            Сортировка вставками, 
+            Сортировка выбором
+        };
+        \addplot table [x=x, y=y] {bench_results/bubble_resorted.csv};
+        \addplot table [x=x, y=y] {bench_results/insert_resorted.csv};
+        \addplot table [x=x, y=y] {bench_results/select_resorted.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов сортировки от длины массивов, содержащих обратно отсортированный набор данных}
+    \label{fig:plot_resorted}
+\end{figure} 
+
+
+\begin{figure}[h]
+    \centering
+    
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west, 
+            ymin = 0, 
+            grid = major,
+            xlabel={Длина массива},
+            ylabel={Количество тиков},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{ 
+            Сортировка пузырьком, 
+            Сортировка вставками, 
+            Сортировка выбором
+        };
+        \addplot table [x=x, y=y] {bench_results/bubble_resorted copy.csv};
+        \addplot table [x=x, y=y] {bench_results/insert_resorted copy.csv};
+        \addplot table [x=x, y=y] {bench_results/select_resorted copy.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы реализаций алгоритмов сортировки от длины массивов, содержащих обратно отсортированный набор данных (крупно)}
+    \label{fig:plot_resorted_big}
+\end{figure} 
+
+
+\clearpage 
+\section{Вывод}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rpz"
+%%% End:

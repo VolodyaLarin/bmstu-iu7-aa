@@ -1,0 +1,24 @@
+
+@startuml
+!theme plain     
+skinparam padding 5
+skinparam ConditionEndStyle hline
+skinparam conditionStyle InsideDiamond
+
+
+:Начало;
+    :size ← размер массива vector]
+    :i ← 0]
+    while (i < size - 1) is (да)
+        :j ← i + 1]
+        while (j < size) is (да)
+            if (  vector[i] > vector[j]  ) then (да)
+                :Обмен vector[i] и vector[j] ]
+            else (нет)
+            endif
+            :j ← j + 1]
+        endwhile
+        :i ← i + 1]
+    endwhile
+:Конец;
+@enduml     
