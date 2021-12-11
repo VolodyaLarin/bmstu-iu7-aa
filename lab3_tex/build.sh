@@ -1,6 +1,6 @@
 LATEX_ARGS=-shell-escape
 
-bash ./make_plantuml.sh
+# bash ./make_plantuml.sh
 echo ${LATEX_ARGS}
 rm *.aux *.toc *.out *.log *.bbl *.blg
 pdflatex ${LATEX_ARGS} rpz.tex
