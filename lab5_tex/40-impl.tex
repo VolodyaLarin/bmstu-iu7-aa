@@ -1,0 +1,69 @@
+\chapter{Технологический раздел}
+\label{cha:impl}
+
+
+
+В данном разделе будут приведены средства реализации, листинги кода, а также функциональные тесты.
+
+
+\section{Средства реализации}
+
+Основным средством разработки является язык программирования. Был выбран язык программирования C++. Данный выбор обоснован высокой скоростью работы языка, поддержкой строгой типизации \cite{cpplang}. Для сборки проекта был выбран инструмент CMake \cite{cmake}.  В качестве среды разработки был выбран инструмент JetBrains Clion \cite{clion}.
+
+
+\section{Листинги кода}
+
+В листингах \ref{lst:parallel_processing} - \ref{lst:stage_3} представлены функции для конвейерного и линейного алгоритмов обработки матриц.
+
+\lstinputlisting[language=c,caption={Функция алгоритма конвейерной обработки матриц},label=lst:parallel_processing]{code/conveyor.cpp}
+\lstinputlisting[language=c,caption={Функция алгоритма линейной обработки матрицы},label=lst:linear_processing]{code/linear.cpp}
+
+\lstinputlisting[language=c,caption={Функция 1-ой ленты конвейерной обработки матрицы},label=lst:parallel_stage_1]{code/parallel_stage_1.cpp}
+\lstinputlisting[language=c,caption={Функция 2-ой ленты конвейерной обработки матрицы},label=lst:parallel_stage_2]{code/parallel_stage_2.cpp}
+\lstinputlisting[language=c,caption={Функция 3-ой ленты конвейерной обработки матрицы},label=lst:parallel_stage_3]{code/parallel_stage_3.cpp}
+
+\lstinputlisting[language=c,caption={Функция реализации 1-ого этапа обработки матрицы},label=lst:stage_1]{code/stage_1.cpp}
+\lstinputlisting[language=c,caption={Функция реализации 2-ого этапа обработки матрицы},label=lst:stage_2]{code/stage_2.cpp}
+\lstinputlisting[language=c,caption={Функция реализации 3-ого этапа обработки матрицы},label=lst:stage_3]{code/stage_3.cpp}
+
+
+\section{Функциональные тесты}
+
+В таблице \ref{tbl:functional_test} приведены функциональные тесты для конвейерного и ленейного алгоритмов обработки матриц. Все тесты пройдены успешно.
+
+\begin{table}[h]
+	\begin{center}
+	% \begin{threeparttable}
+		\captionsetup{justification=raggedright,singlelinecheck=off}
+		\caption{\label{tbl:functional_test} Функциональные тесты}
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			Строк & Столбцов & Метод обр. & Алгоритм & Ожидаемый результат 
+			\\ \hline
+			0 & 10 & 10 & Конвейерный & Сообщение об ошибке 
+			\\ \hline
+			k & 10 & 10 & Конвейерный & Сообщение об ошибке 
+			\\ \hline
+			10 & 0 & 10 & Конвейерный & Сообщение об ошибке 
+			\\ \hline
+			10 & k & 10 & Конвейерный & Сообщение об ошибке 
+			\\ \hline
+			10 & 10 & -5 & Конвейерный & Сообщение об ошибке 
+			\\ \hline
+			10 & 10 & k & Конвейерный & Сообщение об ошибке 
+			\\ \hline
+			100 & 100 & 20 & Конвейерный & Вывод результ. таблички
+			\\ \hline
+			100 & 100 & 20 & Линейный & Вывод результ. таблички
+			\\ \hline
+			50 & 100 & 100 & Линейный & Вывод результ. таблички
+			\\ \hline
+		\end{tabular}
+	% \end{threeparttable}
+	\end{center}
+\end{table}
+
+\section{Вывод}
+
+В данном разделе были разработаны алгоритмы для конвейерного и ленейного алгоритмов обработки матриц, проведено тестирование, описаны средства реализации и требования к ПО.
+

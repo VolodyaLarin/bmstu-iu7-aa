@@ -1,0 +1,100 @@
+\chapter{Экспериментальный раздел}
+\label{cha:research}
+
+\section{Технические характеристики}
+Тестирование выполнялось на устройстве со следующими техническими характеристиками:
+\begin{itemize}
+	\item Операционная система Ubuntu 21.04;
+	\item Память 16 GiB (4,5 GiB выделено для нужд графического ядра)
+	\item Процессор AMD® Ryzen 5 5500u with radeon graphics × 12 
+\end{itemize}
+
+\section{Время выполнения алгоритмов}
+
+Для замеров времени использовалась стандартная функция языка \textit{std::chrono::system\_clock::now()}  \cite{clock}.  Данная функция возвращает точку времени, представляющую текущее время системы.  суммарное процессорное время, использованное программой. На листинге \ref{listing:mesuare} показан способ применения данной функции при замерах.
+
+\begin{lstlisting}[caption={Замер времени функции}, label=listing:mesuare]
+timeStart = std::chrono::system_clock::now();
+stage1(std::ref(q1), std::ref(q2));
+timeEnd = std::chrono::system_clock::now();
+\end{lstlisting}
+
+Из результатов работы программы для 5 матриц размером 1000, представленных на листинге \ref{lst:test_tbl}, можно сделать вывод, что конвейерная обработка работает согласно требованиям, выставленных в аналитической части.
+
+\lstinputlisting[caption={Результаты работы программы для 5 матриц размером 1000},label=lst:test_tbl]{code/test.tbl}
+
+
+На рисунке \ref{fig:plot_count} представлена зависимость времени работы обработки 100 матриц от их размеров. 
+
+
+
+\begin{figure}[H]
+    \centering
+
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west,
+            ymin = 0,
+            xmin = 0,
+            grid = major,
+            xlabel={количество матриц},
+            ylabel={Время работы, с},
+			xtick={0,200,400,800,1600,3200},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{
+            Конвейерная обработка,
+            Линейная обработка,
+        };
+        \addplot table [x=x, y=y] {bench_results/conv_count.csv};
+        \addplot table [x=x, y=y] {bench_results/lin_count.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы обработки матриц размера 100 от их количества}
+    \label{fig:plot_count}
+\end{figure}
+
+На рисунке \ref{fig:plot_size} представлена зависимость времени работы обработки матриц размера 100 от их количества. 
+
+\begin{figure}[H]
+    \centering
+
+    \begin{tikzpicture}
+        \begin{axis} [
+            legend pos = north west,
+            ymin = 0,
+            grid = major,
+            xlabel={Размер матриц},
+            ylabel={Время работы, с},
+            table/col sep = semicolon,
+            /pgf/number format/1000 sep={}
+        ]
+        \legend{
+            Конвейерная обработка,
+            Линейная обработка,
+        };
+        \addplot table [x=x, y=y] {bench_results/conv_size.csv};
+        \addplot table [x=x, y=y] {bench_results/lin_size.csv};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Зависимость времени работы обработки 100 матриц от их размеров}
+    \label{fig:plot_size}
+\end{figure}
+
+
+\section{Вывод}
+
+В этом разделе были указаны технические характеристики машины, на которой происходило сравнение времени работы алгоритмов обработки матриц для конвейерной и ленейной реализаций.
+
+В результате замеров времени было установлено, что конвейерная реализация обработки лучше линейной
+при большом количестве матриц (в 2.5 раза при 400 матрицах, в 2.6 раза при 800 и в 2.7 при 1600). Так же конвейерная обработка показала себя лучше при увеличении размеров обрабатываемых матриц (в 2.8 раза при размере матриц 160х160, в 2.9 раза при размере 320х320 и в 2.9 раза при матрицах 640х640). Значит при большом количестве обрабатываемых матриц, а так же при матрицах большого размера стоит использовать конвейерную реализацию обработки, а не линейную.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "rpz"
+%%% End:
